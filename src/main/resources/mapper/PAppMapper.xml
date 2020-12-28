@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.springboot.mapper.PAppMapper">
+    <resultMap id="BaseResultMap" type="cn.itcast.springboot.entity.PApp">
+        <result column="id" property="id" />
+        <result column="app_hosts" property="appHosts" />
+        <result column="app_code" property="appCode" />
+        <result column="app_name" property="appName" />
+        <result column="uapp_id" property="uappId" />
+        <result column="uapp_key" property="uappKey" />
+        <result column="uapp_secret" property="uappSecret" />
+        <result column="contact_name" property="contactName" />
+        <result column="contact_mobile" property="contactMobile" />
+        <result column="contact_email" property="contactEmail" />
+        <result column="is_enabled" property="isEnabled" />
+        <result column="is_sign" property="isSign" />
+        <result column="pay_type" property="payType" />
+        <result column="delivery_type" property="deliveryType" />
+        <result column="desc" property="desc" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="deleted_at" property="deletedAt" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id
+        , t.app_hosts
+        , t.app_code
+        , t.app_name
+        , t.uapp_id
+        , t.uapp_key
+        , t.uapp_secret
+        , t.contact_name
+        , t.contact_mobile
+        , t.contact_email
+        , t.is_enabled
+        , t.is_sign
+        , t.pay_type
+        , t.delivery_type
+        , t.desc
+        , t.created_at
+        , t.updated_at
+        , t.deleted_at
+        , t.version
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM p_app t
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns" />
+        FROM p_app t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="cn.itcast.springboot.entity.PApp"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO p_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            app_hosts,
+            app_code,
+            app_name,
+            uapp_id,
+            uapp_key,
+            uapp_secret,
+            contact_name,
+            contact_mobile,
+            contact_email,
+            is_enabled,
+            is_sign,
+            pay_type,
+            delivery_type,
+            desc,
+            created_at,
+            updated_at,
+            deleted_at,
+            version,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{appHosts},
+            #{appCode},
+            #{appName},
+            #{uappId},
+            #{uappKey},
+            #{uappSecret},
+            #{contactName},
+            #{contactMobile},
+            #{contactEmail},
+            #{isEnabled},
+            #{isSign},
+            #{payType},
+            #{deliveryType},
+            #{desc},
+            #{createdAt},
+            #{updatedAt},
+            #{deletedAt},
+            #{version},
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="cn.itcast.springboot.entity.PApp"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO p_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="appHosts != null">
+                app_hosts,
+            </if>
+            <if test="appCode != null">
+                app_code,
+            </if>
+            <if test="appName != null">
+                app_name,
+            </if>
+            <if test="uappId != null">
+                uapp_id,
+            </if>
+            <if test="uappKey != null">
+                uapp_key,
+            </if>
+            <if test="uappSecret != null">
+                uapp_secret,
+            </if>
+            <if test="contactName != null">
+                contact_name,
+            </if>
+            <if test="contactMobile != null">
+                contact_mobile,
+            </if>
+            <if test="contactEmail != null">
+                contact_email,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="isSign != null">
+                is_sign,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="deliveryType != null">
+                delivery_type,
+            </if>
+            <if test="desc != null">
+                desc,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="deletedAt != null">
+                deleted_at,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="appHosts != null" >
+                #{appHosts},
+            </if>
+            <if test="appCode != null" >
+                #{appCode},
+            </if>
+            <if test="appName != null" >
+                #{appName},
+            </if>
+            <if test="uappId != null" >
+                #{uappId},
+            </if>
+            <if test="uappKey != null" >
+                #{uappKey},
+            </if>
+            <if test="uappSecret != null" >
+                #{uappSecret},
+            </if>
+            <if test="contactName != null" >
+                #{contactName},
+            </if>
+            <if test="contactMobile != null" >
+                #{contactMobile},
+            </if>
+            <if test="contactEmail != null" >
+                #{contactEmail},
+            </if>
+            <if test="isEnabled != null" >
+                #{isEnabled},
+            </if>
+            <if test="isSign != null" >
+                #{isSign},
+            </if>
+            <if test="payType != null" >
+                #{payType},
+            </if>
+            <if test="deliveryType != null" >
+                #{deliveryType},
+            </if>
+            <if test="desc != null" >
+                #{desc},
+            </if>
+            <if test="createdAt != null" >
+                #{createdAt},
+            </if>
+            <if test="updatedAt != null" >
+                #{updatedAt},
+            </if>
+            <if test="deletedAt != null" >
+                #{deletedAt},
+            </if>
+            <if test="version != null" >
+                #{version},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="cn.itcast.springboot.entity.PApp">
+        UPDATE p_app
+        <set>
+            app_hosts=#{appHosts},
+            app_code=#{appCode},
+            app_name=#{appName},
+            uapp_id=#{uappId},
+            uapp_key=#{uappKey},
+            uapp_secret=#{uappSecret},
+            contact_name=#{contactName},
+            contact_mobile=#{contactMobile},
+            contact_email=#{contactEmail},
+            is_enabled=#{isEnabled},
+            is_sign=#{isSign},
+            pay_type=#{payType},
+            delivery_type=#{deliveryType},
+            desc=#{desc},
+            created_at=#{createdAt},
+            updated_at=#{updatedAt},
+            deleted_at=#{deletedAt},
+            version=#{version},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="cn.itcast.springboot.entity.PApp">
+        UPDATE p_app
+        <set>
+            <if test="appHosts != null" >
+                app_hosts=#{appHosts},
+            </if>
+            <if test="appCode != null" >
+                app_code=#{appCode},
+            </if>
+            <if test="appName != null" >
+                app_name=#{appName},
+            </if>
+            <if test="uappId != null" >
+                uapp_id=#{uappId},
+            </if>
+            <if test="uappKey != null" >
+                uapp_key=#{uappKey},
+            </if>
+            <if test="uappSecret != null" >
+                uapp_secret=#{uappSecret},
+            </if>
+            <if test="contactName != null" >
+                contact_name=#{contactName},
+            </if>
+            <if test="contactMobile != null" >
+                contact_mobile=#{contactMobile},
+            </if>
+            <if test="contactEmail != null" >
+                contact_email=#{contactEmail},
+            </if>
+            <if test="isEnabled != null" >
+                is_enabled=#{isEnabled},
+            </if>
+            <if test="isSign != null" >
+                is_sign=#{isSign},
+            </if>
+            <if test="payType != null" >
+                pay_type=#{payType},
+            </if>
+            <if test="deliveryType != null" >
+                delivery_type=#{deliveryType},
+            </if>
+            <if test="desc != null" >
+                desc=#{desc},
+            </if>
+            <if test="createdAt != null" >
+                created_at=#{createdAt},
+            </if>
+            <if test="updatedAt != null" >
+                updated_at=#{updatedAt},
+            </if>
+            <if test="deletedAt != null" >
+                deleted_at=#{deletedAt},
+            </if>
+            <if test="version != null" >
+                version=#{version},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="cn.itcast.springboot.entity.PApp">
+		UPDATE p_app
+		SET is_enabled=1
+		WHERE id = #{id}
+	</delete>
+
+
+</mapper>
