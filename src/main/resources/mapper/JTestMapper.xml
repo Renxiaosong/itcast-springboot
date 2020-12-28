@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.springboot.mapper.JTestMapper">
+    <resultMap id="BaseResultMap" type="cn.itcast.springboot.entity.JTest">
+        <result column="id" property="id"/>
+        <result column="content" property="content" typeHandler="cn.itcast.springboot.typehandler.MySqlJsonHandler"/>
+        <result column="op_notes" property="opNotes"/>
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id,
+         t.content,
+         t.op_notes,
+         t.is_deleted
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM j_test t
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM j_test t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="cn.itcast.springboot.entity.JTest"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO j_test
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            content,op_notes
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{content,typeHandler="cn.itcast.springboot.typehandler.MySqlJsonHandler"},
+            #{opNotes}
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="cn.itcast.springboot.entity.JTest"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO j_test
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="content != null">
+                content,
+            </if>
+            <if test="opNotes != null">
+                op_notes,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="content != null">
+                #{content,typeHandler=cn.itcast.springboot.typehandler.MySqlJsonHandler},
+            </if>
+            <if test="opNotes != null">
+                #{opNotes},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="map">
+        UPDATE j_test
+        <set>
+            content=#{content,typeHandler=cn.itcast.springboot.typehandler.MySqlJsonHandler},
+            op_notes=#{opNotes},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="cn.itcast.springboot.entity.JTest">
+        UPDATE j_test
+        <set>
+            <if test="content != null" >
+                content=#{content},
+            </if>
+            <if test="opNotes != null" >
+                op_notes=#{opNotes},
+            </if>
+            <if test="isDeleted != null" >
+                is_deleted=#{isDeleted},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="cn.itcast.springboot.entity.JTest">
+		UPDATE j_test
+		SET is_deleted=1
+		WHERE id = #{id}
+	</delete>
+
+
+</mapper>

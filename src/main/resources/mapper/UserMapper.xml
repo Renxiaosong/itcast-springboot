@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.springboot.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.itcast.springboot.entity.User">
+        <result column="id" property="id"/>
+        <result column="uapp_id" property="uappId"/>
+        <result column="channel_userid" property="channelUserid"/>
+        <result column="channel_username" property="channelUsername"/>
+        <result column="channel_nickname" property="channelNickname"/>
+        <result column="open_id" property="openId"/>
+        <result column="head_url" property="headUrl"/>
+        <result column="mobile" property="mobile"/>
+        <result column="org_name" property="orgName"/>
+        <result column="org_path" property="orgPath"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="is_super" property="isSuper"/>
+        <result column="is_enabled" property="isEnabled"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="deleted_at" property="deletedAt"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="version" property="version"/>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id
+        , t.uapp_id
+        , t.channel_userid
+        , t.channel_username
+        , t.channel_nickname
+        , t.open_id
+        , t.head_url
+        , t.mobile
+        , t.org_name
+        , t.org_path
+        , t.email
+        , t.password
+        , t.is_admin
+        , t.is_super
+        , t.is_enabled
+        , t.created_at
+        , t.updated_at
+        , t.deleted_at
+        , t.last_login_time
+        , t.version
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM p_app_user t
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM p_app_user t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 分页模糊查询 -->
+    <select id="getListInPage" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM p_app_user t
+        WHERE deleted_at IS NULL
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="channelUserId != null">
+            AND channel_userid = #{channelUserId}
+        </if>
+        <if test="channelNickName != null">
+            AND channel_nickname = #{channelNickName}
+        </if>
+        <if test="mobile != null">
+            AND mobile = #{mobile}
+        </if>
+        ORDER BY created_at DESC LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="cn.itcast.springboot.entity.User"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO p_app_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            uapp_id,
+            channel_userid,
+            channel_username,
+            channel_nickname,
+            open_id,
+            head_url,
+            mobile,
+            org_name,
+            org_path,
+            email,
+            password,
+            is_admin,
+            is_super,
+            is_enabled,
+            created_at,
+            updated_at,
+            deleted_at,
+            last_login_time,
+            version,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{uappId},
+            #{channelUserid},
+            #{channelUsername},
+            #{channelNickname},
+            #{openId},
+            #{headUrl},
+            #{mobile},
+            #{orgName},
+            #{orgPath},
+            #{email},
+            #{password},
+            #{isAdmin},
+            #{isSuper},
+            #{isEnabled},
+            #{createdAt},
+            #{updatedAt},
+            #{deletedAt},
+            #{lastLoginTime},
+            #{version},
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="cn.itcast.springboot.entity.User"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO p_app_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="uappId != null">
+                uapp_id,
+            </if>
+            <if test="channelUserid != null">
+                channel_userid,
+            </if>
+            <if test="channelUsername != null">
+                channel_username,
+            </if>
+            <if test="channelNickname != null">
+                channel_nickname,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="headUrl != null">
+                head_url,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="orgName != null">
+                org_name,
+            </if>
+            <if test="orgPath != null">
+                org_path,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="isAdmin != null">
+                is_admin,
+            </if>
+            <if test="isSuper != null">
+                is_super,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="deletedAt != null">
+                deleted_at,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="uappId != null">
+                #{uappId},
+            </if>
+            <if test="channelUserid != null">
+                #{channelUserid},
+            </if>
+            <if test="channelUsername != null">
+                #{channelUsername},
+            </if>
+            <if test="channelNickname != null">
+                #{channelNickname},
+            </if>
+            <if test="openId != null">
+                #{openId},
+            </if>
+            <if test="headUrl != null">
+                #{headUrl},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="orgName != null">
+                #{orgName},
+            </if>
+            <if test="orgPath != null">
+                #{orgPath},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="isAdmin != null">
+                #{isAdmin},
+            </if>
+            <if test="isSuper != null">
+                #{isSuper},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt},
+            </if>
+            <if test="deletedAt != null">
+                #{deletedAt},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="cn.itcast.springboot.entity.User">
+        UPDATE p_app_user
+        <set>
+            uapp_id=#{uappId},
+            channel_userid=#{channelUserid},
+            channel_username=#{channelUsername},
+            channel_nickname=#{channelNickname},
+            open_id=#{openId},
+            head_url=#{headUrl},
+            mobile=#{mobile},
+            org_name=#{orgName},
+            org_path=#{orgPath},
+            email=#{email},
+            password=#{password},
+            is_admin=#{isAdmin},
+            is_super=#{isSuper},
+            is_enabled=#{isEnabled},
+            created_at=#{createdAt},
+            updated_at=#{updatedAt},
+            deleted_at=#{deletedAt},
+            last_login_time=#{lastLoginTime},
+            version=#{version},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="cn.itcast.springboot.entity.User">
+        UPDATE p_app_user
+        <set>
+            <if test="uappId != null">
+                uapp_id=#{uappId},
+            </if>
+            <if test="channelUserid != null">
+                channel_userid=#{channelUserid},
+            </if>
+            <if test="channelUsername != null">
+                channel_username=#{channelUsername},
+            </if>
+            <if test="channelNickname != null">
+                channel_nickname=#{channelNickname},
+            </if>
+            <if test="openId != null">
+                open_id=#{openId},
+            </if>
+            <if test="headUrl != null">
+                head_url=#{headUrl},
+            </if>
+            <if test="mobile != null">
+                mobile=#{mobile},
+            </if>
+            <if test="orgName != null">
+                org_name=#{orgName},
+            </if>
+            <if test="orgPath != null">
+                org_path=#{orgPath},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="isAdmin != null">
+                is_admin=#{isAdmin},
+            </if>
+            <if test="isSuper != null">
+                is_super=#{isSuper},
+            </if>
+            <if test="isEnabled != null">
+                is_enabled=#{isEnabled},
+            </if>
+            <if test="createdAt != null">
+                created_at=#{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at=#{updatedAt},
+            </if>
+            <if test="deletedAt != null">
+                deleted_at=#{deletedAt},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time=#{lastLoginTime},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="cn.itcast.springboot.entity.User">
+		UPDATE p_app_user
+		SET is_enabled=0,deleted_at=NOW()
+		WHERE id = #{id}
+	</delete>
+
+
+</mapper>
