@@ -2,6 +2,7 @@ package cn.itcast.springboot.service;
 
 import cn.itcast.springboot.entity.PApp;
 import cn.itcast.springboot.mapper.PAppMapper;
+import cn.itcast.springboot.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,5 +83,16 @@ public class PAppService {
     public int delete(PApp pApp) {
         return pAppMapper.delete(pApp);
     }
+
+    /**
+     * 获取token
+     * @param pApp
+     * @return
+     */
+//    public static CommonResult getToken(PApp pApp){
+//        String appkey = pApp.getUappKey();
+//        String screct = pApp.getUappSecret();
+//        return new CommonResult(CommonResult.RESULT_SUCCESS,"","");
+//    };
 
 }

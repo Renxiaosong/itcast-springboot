@@ -1,8 +1,10 @@
 package cn.itcast.springboot.controller;
 
+import cn.itcast.springboot.common.ResultCode;
 import cn.itcast.springboot.entity.User;
 import cn.itcast.springboot.service.UsersService;
 import cn.itcast.springboot.utils.CommonResult;
+import cn.itcast.springboot.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -33,9 +35,13 @@ public class UserController {
      * @return 返回记录，没有返回null
      */
     @RequestMapping(value = "getById", method = RequestMethod.GET)
-    public CommonResult getById(Integer id) {
+    public Result getById(Integer id) {
+        if(id == null){
+            return Result.failture(ResultCode.PARAM_IS_BLAND);
+        }
         User user = UserService.getById(id);
-        return new CommonResult(CommonResult.RESULT_SUCCESS, user, CommonResult.RESULT_SUCCESS_MSG);
+//        return new CommonResult(CommonResult.RESULT_SUCCESS, user, CommonResult.RESULT_SUCCESS_MSG);
+        return Result.success(user);
     }
 
     /**
