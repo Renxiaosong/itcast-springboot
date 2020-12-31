@@ -35,7 +35,8 @@ public class JTestService {
      * @return 返回记录，没有返回null
      */
     public JTest getById(Integer id) {
-    	return jTestMapper.getById(id);
+        System.out.println(jTestMapper.getById(id));
+        return jTestMapper.getById(id);
     }
 	
     /**

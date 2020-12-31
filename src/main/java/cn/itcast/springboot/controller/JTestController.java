@@ -4,13 +4,14 @@ import java.util.List;
 
 import cn.itcast.springboot.entity.JTest;
 import cn.itcast.springboot.service.JTestService;
+import cn.itcast.springboot.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/jtest")
+@RequestMapping("/api/jtest")
 public class JTestController {
 
     @Autowired
@@ -22,8 +23,9 @@ public class JTestController {
      * @return 返回集合，没有返回空List
      */
     @RequestMapping("list")
-    public List<JTest> listAll() {
-        return jTestService.listAll();
+    public Result listAll() {
+        List list = jTestService.listAll();
+        return Result.success(list);
     }
 
 

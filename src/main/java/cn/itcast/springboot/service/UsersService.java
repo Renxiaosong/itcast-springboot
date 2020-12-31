@@ -4,6 +4,7 @@ import cn.itcast.springboot.mapper.UserMapper;
 import cn.itcast.springboot.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,26 @@ import java.util.Map;
 public class UsersService {
     @Autowired
     private UserMapper UserMapper;
+
+    /**
+     * login
+     * @param user
+     * @return
+     */
+    public boolean login(Map<String,Object> user){
+        String password = (String) user.get("password");
+        String slat = "%iatpD1gcxz7iF#B";
+        String base = password +"_"+slat;
+        String md5Pwd = DigestUtils.md5DigestAsHex(base.getBytes());
+        user.put("password",md5Pwd);
+        user.put("channelUserName",user.get("username"));
+        User u = UserMapper.getUserByChannelNameAndPassword(user);
+        System.out.println(u);
+        if(u == null){
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 查询所有记录

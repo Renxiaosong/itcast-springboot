@@ -29,6 +29,13 @@ public interface UserMapper {
      */
     List<User> getListInPage(Map map);
 
+
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
+    User getUserByChannelNameAndPassword(Map<String,Object> user);
     /**
      * 新增，插入所有字段
      *

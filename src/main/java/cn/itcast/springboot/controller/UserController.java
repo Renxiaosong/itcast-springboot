@@ -7,14 +7,34 @@ import cn.itcast.springboot.utils.CommonResult;
 import cn.itcast.springboot.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
     @Autowired
     private UsersService UserService;
+    private Object User;
+
+    /**
+     * 登录
+     * @return
+     */
+    @RequestMapping("/login")
+    public Result login(@RequestBody Map<String,Object> map, HttpServletRequest req){
+        HttpSession session = req.getSession();
+        boolean result = UserService.login(map);
+        if(result){
+            session.setAttribute("isLogin","true");
+            return Result.success(result);
+        }
+        return Result.failture(ResultCode.USER_LOGIN_ERROR);
+    }
 
     /**
      * 查询所有记录
@@ -34,13 +54,12 @@ public class UserController {
      * @param id 主键
      * @return 返回记录，没有返回null
      */
-    @RequestMapping(value = "getById", method = RequestMethod.GET)
+    @RequestMapping(value = "user/getById", method = RequestMethod.GET)
     public Result getById(Integer id) {
         if(id == null){
             return Result.failture(ResultCode.PARAM_IS_BLAND);
         }
         User user = UserService.getById(id);
-//        return new CommonResult(CommonResult.RESULT_SUCCESS, user, CommonResult.RESULT_SUCCESS_MSG);
         return Result.success(user);
     }
 

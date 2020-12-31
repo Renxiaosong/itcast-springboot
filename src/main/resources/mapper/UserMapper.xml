@@ -360,5 +360,12 @@
 		WHERE id = #{id}
 	</delete>
 
-
+    <select id="getUserByChannelNameAndPassword" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM p_app_user t
+        WHERE
+        t.channel_username = #{channelUserName} AND t.password = #{password} AND t.deleted_at IS NULL
+        LIMIT 1
+    </select>
 </mapper>
